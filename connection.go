@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"gameServer/types"
+	"GameServer/message"
+	"GameServer/types"
+	//"fmt"
 	"net"
 )
 
 func newConn(conn net.Conn) {
-
+	conn.Close()
 }
