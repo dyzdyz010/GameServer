@@ -9,6 +9,6 @@ func Message(broadcast, target chan string) {
 	go targetedMessage(target)
 }
 
-func targetedMessage(target chan string) {
+func TargetedMessage(target chan string) {
 
 }

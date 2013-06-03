@@ -20,6 +20,8 @@ import (
 	//"fmt"
 )
 
+var users = make([]types.User, 10000)
+
 func AddUser(user types.User) {
 
 }
