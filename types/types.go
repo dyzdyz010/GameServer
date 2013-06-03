@@ -19,8 +19,8 @@ import (
 )
 
 type User struct {
-	name     string
-	password string
-	msgChan  chan string
-	conn     net.Conn
+	Name     string
+	Password string
+	MsgChan  chan string
+	Conn     net.Conn
 }
