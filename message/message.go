@@ -6,7 +6,7 @@ import (
 )
 
 func Message(broadcast, target chan string) {
-	go targetedMessage(target)
+	go TargetedMessage(target)
 }
 
 func TargetedMessage(target chan string) {
