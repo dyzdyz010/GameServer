@@ -1,7 +1,9 @@
 package main
 
 import (
+	"GameServer/connection"
 	"GameServer/message"
+	"GameServer/types"
 	"fmt"
 	"log"
 	"net"
@@ -17,7 +19,7 @@ func main() {
 
 	var (
 		broadcastChan = make(chan string)
-		targetMsgChan = make(chan string)
+		targetMsgChan = make(chan types.TargetMsg)
 	)
 
 	// 监听端口
@@ -38,6 +40,7 @@ func main() {
 			log.Println("Accept error: ", err)
 			continue
 		}
+		connection.NewConnection(conn, broadcastChan, targetMsgChan)
 	}
 
 }

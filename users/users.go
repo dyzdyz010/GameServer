@@ -9,7 +9,7 @@
  		function RemoveUser(user types.User) —— 把user从用户数组中删除
  		function GetUserByName(name string) types.User —— 根据name在用户数组中查找用户名为name的用户并返回types.User对象
 
- Copyright (C) 2013 DYZ. All Rights Reserved.
+ Copyright (C) 2013 dyzdyz010. All Rights Reserved.
 
 */
 
@@ -20,7 +20,7 @@ import (
 	//"fmt"
 )
 
-var users = make([]types.User, 10000)
+var Users = make([]types.User, 10000)
 
 func AddUser(user types.User) {
 
@@ -32,5 +32,15 @@ func RemoveUser(user types.User) {
 
 func GetUserByName(name string) types.User {
 
+	for _, user := range Users {
+		if user.Name == name {
+			return user
+		}
+	}
+
 	return types.User{}
+}
+
+func GetUserByChannel(chann chan string) {
+
 }
