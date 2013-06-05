@@ -15,7 +15,6 @@
 package types
 
 import (
-	//"fmt"
 	"net"
 )
 
@@ -26,7 +25,18 @@ type User struct {
 	Conn     net.Conn
 }
 
+type BroadcastMsg struct {
+	Origin  string
+	Message string
+}
+
 type TargetMsg struct {
+	Origin  string
 	Target  []string
 	Message string
 }
+
+var (
+	BroadcastChan = make(chan BroadcastMsg)
+	TargetMsgChan = make(chan TargetMsg)
+)

@@ -15,43 +15,78 @@
 package connection
 
 import (
-	"GameServer/types"
-	//"GameServer/users"
+	. "GameServer/types"
+	"GameServer/users"
+
 	"fmt"
 	"net"
+	"strings"
 )
 
 var (
 	commingData = make([]byte, 1024)
 )
 
-func NewConnection(conn net.Conn, broadcast chan string, target chan types.TargetMsg) {
-	fmt.Printf("New connection %s created.", conn.RemoteAddr().String())
+func NewConnection(conn net.Conn) {
+	fmt.Printf("New connection %s created.\n", conn.RemoteAddr().String())
+
+	// 创建用户结构
 	msgChan := make(chan string)
-	user := types.User{"", "", msgChan, conn}
+	user := &User{"", "", msgChan, conn}
+
+	// 开启写线程
 	go write(user)
+
+	// 开始读入客户端信息
+	login(user)
+	BroadcastChan <- BroadcastMsg{user.Name, "entered the game."}
 	for {
 		lengh, err := conn.Read(commingData)
 
 		// 如果读入数据时出错，通知写回线程退出，广播退出信息，关闭用户连接
 		if err != nil {
 			fmt.Println("Read error: ", err)
-			msgChan <- "close"
-			conn.Close()
+			disconnect(user)
 			return
 		}
 
 		commingStr := string(commingData[:lengh])
-		fmt.Println(commingStr)
+		lex(commingStr, user)
 	}
 }
 
-func write(user types.User) {
+func write(u *User) {
 	for {
-		msg := <-user.MsgChan
+		msg := <-u.MsgChan
 		if msg == "close" {
 			return
 		}
-		user.Conn.Write([]byte(msg))
+		u.Conn.Write([]byte(msg))
+	}
+}
+
+func disconnect(u *User) {
+	u.MsgChan <- "close"
+	u.Conn.Close()
+	BroadcastChan <- BroadcastMsg{u.Name, "close"}
+	users.RemoveUser(u)
+}
+
+func login(u *User) {
+	// 获取登录信息
+	length, err := u.Conn.Read(commingData)
+	if err != nil {
+		fmt.Println("Login error: ", err)
+		disconnect(u)
+	}
+
+	loginArr := strings.Split(string(commingData[:length]), " ")
+	if users.CheckAvailable(u) {
+		u.Name = loginArr[0]
+		u.Password = loginArr[1]
+		users.AddUser(u)
+	} else {
+		u.MsgChan <- "login error"
+		login(u)
 	}
 }

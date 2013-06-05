@@ -16,29 +16,31 @@
 package message
 
 import (
-	"GameServer/types"
+	. "GameServer/types"
 	"GameServer/users"
 
-//"fmt"
-//"net"
+	//"fmt"
+	//"net"
 )
 
-func Message(broadcast chan string, target chan types.TargetMsg) {
-	go targetedMessage(target)
+func Message() {
+	go targetedMessage()
 
 	for {
-		msg := <-broadcast
+		bag := <-BroadcastChan
 		for _, user := range users.Users {
+			msg := bag.Origin + " : " + bag.Message
 			user.MsgChan <- msg
 		}
 	}
 }
 
-func targetedMessage(target chan types.TargetMsg) {
+func targetedMessage() {
 	for {
-		msg := <-target
-		for _, name := range msg.Target {
-			users.GetUserByName(name).MsgChan <- msg.Message
+		bag := <-TargetMsgChan
+		for _, name := range bag.Target {
+			msg := bag.Origin + " : " + bag.Message
+			users.GetUserByName(name).MsgChan <- msg
 		}
 	}
 }

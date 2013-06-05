@@ -3,7 +3,7 @@ package main
 import (
 	"GameServer/connection"
 	"GameServer/message"
-	"GameServer/types"
+
 	"fmt"
 	"log"
 	"net"
@@ -13,13 +13,8 @@ import (
 func main() {
 	var (
 		host   = "127.0.0.1"
-		port   = "8000"
+		port   = "37576"
 		remote = host + ":" + port
-	)
-
-	var (
-		broadcastChan = make(chan string)
-		targetMsgChan = make(chan types.TargetMsg)
 	)
 
 	// 监听端口
@@ -31,7 +26,7 @@ func main() {
 	}
 
 	// 准备通信线程
-	go message.Message(broadcastChan, targetMsgChan)
+	go message.Message()
 
 	// 等待客户端连接
 	for {
@@ -40,7 +35,7 @@ func main() {
 			log.Println("Accept error: ", err)
 			continue
 		}
-		connection.NewConnection(conn, broadcastChan, targetMsgChan)
+		go connection.NewConnection(conn)
 	}
 
 }
