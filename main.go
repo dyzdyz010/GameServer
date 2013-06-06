@@ -2,12 +2,14 @@ package main
 
 import (
 	"GameServer/connection"
+	"GameServer/console"
 	"GameServer/message"
 
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"runtime"
 )
 
 func main() {
@@ -17,6 +19,9 @@ func main() {
 		remote = host + ":" + port
 	)
 
+	// 初始化
+	initialize()
+
 	// 监听端口
 	listen, err := net.Listen("tcp", remote)
 	defer listen.Close()
@@ -24,9 +29,7 @@ func main() {
 		fmt.Println("Listen error: ", err)
 		os.Exit(-1)
 	}
-
-	// 准备通信线程
-	go message.Message()
+	fmt.Println("Server start listen on " + remote + "\n")
 
 	// 等待客户端连接
 	for {
@@ -38,4 +41,20 @@ func main() {
 		go connection.NewConnection(conn)
 	}
 
+}
+
+func initialize() {
+	fmt.Println("\nServer initializing...\n")
+
+	// 开启多核
+	runtime.GOMAXPROCS(4)
+	fmt.Println("Multi-CPU support active, current CPUs in use: ", runtime.NumCPU(), "\n")
+
+	// 开启控制台
+	go console.Console()
+	fmt.Println("Server console activated.\n")
+
+	// 准备通信线程
+	go message.Message()
+	fmt.Println("Message routines ready...\n")
 }

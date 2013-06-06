@@ -5,9 +5,8 @@
  简介: 消息中转块，包含广播与点对点通信两种分发模式。
 
  详情: 该包包含广播与点对点两个线程，分别负责监听对应的管道信息，并把指定信息写入对应的User.MsgChan中
- 		function newConn(user types.User) —— 将user添加到用户数组中
- 		function RemoveUser(user types.User) —— 把user从用户数组中删除
- 		function GetUserByName(name string) types.User —— 根据name在用户数组中查找用户名为name的用户并返回types.User对象
+ 		function Message() —— 包入口，负责开辟点对点消息分发线程，并监听广播消息并分发
+ 		function targetedMessage() —— 点对点消息监听及分发函数，负责监听点对点消息并分发给目标用户
 
  Copyright (C) 2013 dyzdyz010. All Rights Reserved.
 
@@ -28,10 +27,12 @@ func Message() {
 
 	for {
 		bag := <-BroadcastChan
-		for _, user := range users.Users {
-			msg := bag.Origin + " : " + bag.Message
-			user.MsgChan <- msg
-		}
+		go func(bag BroadcastMsg) {
+			for _, user := range users.Users {
+				msg := bag.Origin + ": " + bag.Message
+				user.MsgChan <- msg
+			}
+		}(bag)
 	}
 }
 
@@ -39,7 +40,7 @@ func targetedMessage() {
 	for {
 		bag := <-TargetMsgChan
 		for _, name := range bag.Target {
-			msg := bag.Origin + " : " + bag.Message
+			msg := bag.Origin + ": " + bag.Message
 			users.GetUserByName(name).MsgChan <- msg
 		}
 	}

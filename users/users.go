@@ -8,7 +8,9 @@
  		func CheckAvailable(user *User) bool —— 检查指定用户是否已经存在在用户列表中
  		function AddUser(user User) —— 将user添加到用户数组中
  		function RemoveUser(user User) —— 把user从用户数组中删除
- 		function GetUserByName(name string) User —— 根据name在用户数组中查找用户名为name的用户并返回User对象
+ 		function GetUserByName(name string) *User —— 根据name在用户数组中查找用户名为name的用户并返回User指针
+ 		function GetUserByChannel(chan string) *User —— 根据消息通道在用户数组中查询持有该通道的用户并返回User指针
+ 		function NumberOfUsers() int　——　获取用户数量
 
  Copyright (C) 2013 dyzdyz010. All Rights Reserved.
 
@@ -21,7 +23,18 @@ import (
 	//"fmt"
 )
 
-var Users []*User
+type UserList []*User
+
+var Users UserList
+
+func (u UserList) String() string {
+	str := ""
+	for _, user := range u {
+		str += "[Name: " + user.Name + ", Password: " + user.Password + ", Address: " + user.Conn.RemoteAddr().String() + "]\n"
+	}
+
+	return str
+}
 
 func CheckAvailable(u *User) bool {
 	for _, user := range Users {
@@ -59,6 +72,16 @@ func GetUserByName(name string) *User {
 	return &User{}
 }
 
-func GetUserByChannel(chann chan string) {
+func GetUserByChannel(chann chan string) *User {
+	for _, user := range Users {
+		if user.MsgChan == chann {
+			return user
+		}
+	}
 
+	return &User{}
+}
+
+func NumberOfUsers() int {
+	return len(Users)
 }

@@ -6,7 +6,8 @@
 
  详情: 该包中所包含的数据结构：
  		struct User —— 用户对象，包括名称、密码、通信通道、连接句柄等四个成员
- 		struct TargetMsg —— 点对点通信包对象，包含目标用户数组、要传递的信息等两个成员
+ 		struct BroadcastMsg　——　广播通信包对象，包含来源、要传递的信息等两个成员
+ 		struct TargetMsg —— 点对点通信包对象，包含来源、目标用户数组、要传递的信息等三个成员
 
  Copyright (C) 2013 dyzdyz010. All Rights Reserved.
 
@@ -40,3 +41,7 @@ var (
 	BroadcastChan = make(chan BroadcastMsg)
 	TargetMsgChan = make(chan TargetMsg)
 )
+
+func (u *User) String() string {
+	return "[Name: " + u.Name + ", Password: " + u.Password + ", Address: " + u.Conn.RemoteAddr().String() + "]"
+}
