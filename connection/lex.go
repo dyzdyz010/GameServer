@@ -1,3 +1,17 @@
+/*
+
+ 文件名: lex.go
+ 创建时间: 2013-06-03
+ 简介: 客户端消息解析函数。
+
+ 详情: 该文件仅有一个函数：
+ 		function lex(string, *User)
+ 		将客户端发来的消息进行解析，确定分发对象，并把消息包结构体发送给message包。
+
+ Copyright (C) 2013 dyzdyz010. All Rights Reserved.
+
+*/
+
 package connection
 
 import (

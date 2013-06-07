@@ -1,3 +1,25 @@
+/*
+
+ 文件名: console.go
+ 创建时间: 2013-06-06
+ 简介: 给服务端添加一个控制台，便于输入指令调试。
+
+ 详情: 该包包含一个在服务端等待I/O操作的函数，用来对输入的指令进行回应。
+ 		function Console() —— 开启控制台routine并负责功能
+
+ 		指令：
+ 			cpu num ——　显示程序能使用的ＣＰＵ数量
+ 			goroutines —— 查看当前程序的routine数量
+ 			user num —— 查看当前在线用户数量
+ 			user list —— 查看当前在线用户列表
+ 			memory usage —— 查看程序当前的内存使用情况
+ 			quit —— 关闭服务器
+
+
+ Copyright (C) 2013 dyzdyz010. All Rights Reserved.
+
+*/
+
 package console
 
 import (

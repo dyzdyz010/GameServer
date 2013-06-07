@@ -1,3 +1,15 @@
+/*
+
+ 文件名: main.go
+ 创建时间: 2013-06-02
+ 简介: 服务器主函数
+
+ 详情: 程序入口，负责初始化CPU分配、打开控制台、准备消息分发routines，侦听端口，并且接收客户端的连接。
+
+ Copyright (C) 2013 dyzdyz010. All Rights Reserved.
+
+*/
+
 package main
 
 import (
