@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Gameserver : A game server as class final project" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Gameserver</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/dyzdyz010/GameServer">View on GitHub</a>
+
+          <h1 id="project_title">Gameserver</h1>
+          <h2 id="project_tagline">A game server as class final project</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/dyzdyz010/GameServer/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/dyzdyz010/GameServer/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="gameserver" class="anchor" href="#gameserver"><span class="octicon octicon-link"></span></a>GameServer</h1>
+
+<p>网络编程项目。</p>
+
+<h2>
+<a name="target" class="anchor" href="#target"><span class="octicon octicon-link"></span></a>Target</h2>
+
+<p>实现一个游戏服务器，满足并发要求，并且保证一定的效率。</p>
+
+<h2>
+<a name="files" class="anchor" href="#files"><span class="octicon octicon-link"></span></a>Files</h2>
+
+<ul>
+<li>
+<code>main.go</code>    —— 程序入口，负责初始化CPU分配、打开控制台、准备消息分发routines，侦听端口，并且接收客户端的连接。</li>
+</ul><h2>
+<a name="packages" class="anchor" href="#packages"><span class="octicon octicon-link"></span></a>Packages</h2>
+
+<ul>
+<li>
+<code>connection</code> —— 用于建立与客户端的连接，进行读写数据。</li>
+<li>
+<code>message</code>    —— 用于负责服务器向客户端方向的信息的递送，主要功能是广播和点对点通信；</li>
+<li>
+<code>types</code>      —— 包含整个服务器所用到的各种数据结构，比如用户信息结构体等；</li>
+<li>
+<code>users</code>      —— 包含用户管理相关函数，比如用户进入游戏与离开。</li>
+<li>
+<code>console</code>    —— 给服务端添加一个控制台，便于输入指令调试。</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Gameserver maintained by <a href="https://github.com/dyzdyz010">dyzdyz010</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
