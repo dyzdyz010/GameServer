@@ -59,7 +59,7 @@ func initialize() {
 	fmt.Println("\nServer initializing...\n")
 
 	// 开启多核
-	runtime.GOMAXPROCS(4)
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	fmt.Println("Multi-CPU support active, current CPUs in use: ", runtime.NumCPU(), "\n")
 
 	// 开启控制台
